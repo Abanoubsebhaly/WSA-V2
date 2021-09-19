@@ -1,39 +1,45 @@
-# -*- coding: utf-8 -*-
-#    Copyright (C) 2007  pronexo.com  (https://www.pronexo.com)
-#    All Rights Reserved.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-############################################################################## # 
+# Copyright 2014-2019 Ivan Yelizariev <https://it-projects.info/team/yelizariev>
+# Copyright 2015 Bassirou Ndaw <https://github.com/bassn>
+# Copyright 2015 Alexis de Lattre <https://github.com/alexis-via>
+# Copyright 2016-2017 Stanislav Krotov <https://it-projects.info/team/ufaks>
+# Copyright 2017 Ilmir Karamov <https://it-projects.info/team/ilmir-k>
+# Copyright 2017 Artyom Losev
+# Copyright 2017 Lilia Salihova
+# Copyright 2017-2018 Gabbasov Dinar <https://it-projects.info/team/GabbasovDinar>
+# Copyright 2018 Kolushov Alexandr <https://it-projects.info/team/KolushovAlexandr>
+# Copyright 2021 Denis Mudarisov <https://github.com/trojikman>
+# License MIT (https://opensource.org/licenses/MIT).
 {
-    'name': 'Credit Note In POS',
-    'version': '14.0.2.0.0',
-    'category': 'Point of Sale',
-    'summary': 'Credit Note In POS',
-    'author': 'Pronexo',
-    'maintainer': 'Pronexo',
-    'images': ['static/description/banner.png'],
-    'website': 'https://www.pronexo.com',
-    'depends': ['point_of_sale'],
-    'data': [
-             'views/return.xml',
-             'views/pos_template.xml',
-            ],
-    'qweb': ['static/src/xml/pos_return.xml'],
-    'license': 'AGPL-3',
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-
+    "name": "POS: Prepaid credits",
+    "summary": "Comfortable sales for your regular customers. Debt payment method for POS",
+    "category": "Point Of Sale",
+    "images": ["images/debt_notebook.png"],
+    "version": "14.0.5.3.4",
+    "author": "IT-Projects LLC, Ivan Yelizariev",
+    "support": "apps@itpp.dev",
+    "website": "https://github.com/itpp-labs/pos-addons/",
+    "license": "Other OSI approved licence",  # MIT
+    "external_dependencies": {"python": [], "bin": []},
+    "depends": ["point_of_sale"],
+    "data": [
+        "security/pos_debt_notebook_security.xml",
+        "data/product.xml",
+        "views/pos_debt_report_view.xml",
+        "views.xml",
+        "views/pos_credit_update.xml",
+        "wizard/pos_credit_invoices_views.xml",
+        "wizard/pos_credit_company_invoices_views.xml",
+        "data.xml",
+        "security/ir.model.access.csv",
+    ],
+    "qweb": [
+        "static/src/xml/CreditNote.xml",
+        "static/src/xml/OrderReceipt.xml",
+        "static/src/xml/PaymentMethodButton.xml",
+        "static/src/xml/ReceiptScreen.xml",
+        "static/src/xml/pos.xml",
+    ],
+    "demo": ["data/demo.xml"],
+    "installable": True,
+    "uninstall_hook": "pre_uninstall",
 }

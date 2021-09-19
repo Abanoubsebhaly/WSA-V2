@@ -1,19 +1,25 @@
-# -*- coding: utf-8 -*-
-#    Copyright (C) 2007  pronexo.com  (https://www.pronexo.com)
-#    All Rights Reserved.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-############################################################################## # 
+# License MIT (https://opensource.org/licenses/MIT).
 from . import models
+from . import report
+from . import wizard
+
+from odoo import SUPERUSER_ID
+from odoo import api
+from odoo.tools.translate import _
+from odoo.exceptions import UserError
+
+
+def pre_uninstall(cr, registry):
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    if env["pos.session"].search([("state", "=", "opened")]):
+        raise UserError(
+            _("You have open session of Point of Sale. Please close them first.")
+        )
+
+    debt_journals = env["account.journal"].search([("debt", "=", True)])
+    value = []
+    for journal in debt_journals:
+        value.append((3, journal.id))
+
+    for config in env["pos.config"].search([]):
+        config.write({"payment_method_ids": value})
